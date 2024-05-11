@@ -12,6 +12,8 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
+
 // import { Response } from 'express'
 
 import { ProductService } from '../services/product.service';
@@ -19,6 +21,7 @@ import { ProductService } from '../services/product.service';
 import { ParseIntPipe as CustomParseIntPipe } from '../../common/parse-int/parse-int.pipe';
 import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
 
+@ApiTags('Products endpoints')
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductService) {}
@@ -35,6 +38,7 @@ export class ProductsController {
 
   @Get()
   @HttpCode(HttpStatus.ACCEPTED)
+  @ApiOperation({ summary: 'List of products' })
   getProducts() {
     return this.productService.findAll();
   }
