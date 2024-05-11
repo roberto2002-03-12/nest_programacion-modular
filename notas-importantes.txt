@@ -1,0 +1,50 @@
+-- Importar servicios
+Para importar servicios de otros modulos debes declarar en el modulo creador
+del servicio que servicios se desea exportar, por ejemplo, el modulo users
+necesita servicios del modulo products, para que users pueda utilizar los
+servicios de product, el modulo product debio haber declarado sus servicios
+que va exportar y el modulo user debe importar el module product para obtener
+los servicios de product.
+
+Recomiendo ver el modulo user y product para ver cómo se declara en código
+
+-- Injectable
+¿Para que sirve "injectable"? Sirve para indicar que este servicio
+o mejor dicho clase, va ser usado en varios lugares, entonces lo que
+hace nest es crear la clase y mantenerlo en memoria para que pueda ser
+usado en diferentes lugares, cabe resaltar que gracias a esto evitamos
+memory lack por estar creando instancias a cada rato.
+
+NOTA IMPORTANTE: Un modulo no debe utilizar los servicios de otro modulo que
+esta importando sus servicios (como ejemplo, puede ser otras cosas).
+Se debe tener establecido quien va primero y evitar la paradoja del huevo
+y la gallina
+
+useClass: en realidad ya no se suele utilizar porque ya lo estas utilizando
+al momento de declarar en provider, ejemplo: providers: [CatsService],
+
+Este es la syntaxis completa
+
+providers: [
+  {
+    provide: CatsService,
+    useClass: CatsService,
+  },
+];
+
+useValue: define un valor en un momento y luego utilizarlo en otros modulos
+
+useFactory sirve para relacionar peticiones a otros servicios, puedes relacionarlos
+con tus servicios, va depender la complejidad para cada uso distinto.
+
+-----------
+
+con global indicas que el modulo va ser global
+y que los demás modulos podrán utilizarlo sin problemas
+lo bueno es que podemos usar los providers sin necesidad
+de declarar la importación en el modulo
+@Global()
+
+utiliza el global para resolver el problema de la paradoja del huevo y la gallina
+en caso donde por ejemplo: el modulo user necesita servicios de product y viceversa
+entonces declara sus dos servicios de manera global para evitar circulo de dependencias
